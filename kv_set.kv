@@ -1,0 +1,111 @@
+<TestLabel@Label>:
+    font_size: 25
+    background_color: 1, 1, 1, 1
+    background_normal: ""
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        
+
+<User>:
+    name: "user_screen"
+    GridLayout:
+        cols: 2
+        Image:
+            source:'tmic_logo.png'
+        TestLabel:
+            text: "Input File"
+            color: 0,0,0,1
+        TextInput:
+            id: moInput
+            text:'modulation'
+        TextInput:
+            id: acInput
+            text:'acquisition rate'
+        Button:
+            text:'submit'
+            on_press:
+                root.callback()
+
+<RootWidget>:
+    User
+
+<FileChoosePopup>:
+    title: "Choose a .CSV File"
+    size_hint: .9, .9
+    auto_dismiss: False
+    
+    BoxLayout:
+        orientation: "vertical"
+        FileChooser:
+            id: filechooser
+            filters: ['*.csv']
+            FileChooserIconLayout
+            
+        BoxLayout:
+            size_hint: (1, 0.1)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            spacing: 20
+            Button:
+                text: "Cancel"
+                on_release: root.dismiss()
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.selection)
+                id: ldbtn
+                disabled: True if filechooser.selection==[] else False
+
+<MyStackLayout>:
+
+    StackLayout:
+        orientation: 'lr-tb'
+        size_hint_y: None
+        height: 50
+        spacing: 10
+        Image:
+            source:'tmic_logo.png'
+        Label:
+            text: ''
+            size_hint_x: 1
+        Label:
+            text: ''
+            size_hint_x: 0.2
+        Button:
+            text: 'Choose File'
+            size_hint_x: 0.2
+            on_press: root.open_popup()
+        TextInput:
+            id: get_file
+            readonly: True
+            size_hint_x: 0.3
+        Label:
+            text: ''
+            size_hint_x: 0.2
+        Label:
+            text: ''
+            size_hint_x: 0.15
+        TextInput:
+            id: moInput
+            text:'modulation period (s)'
+            size_hint_x:0.7
+        Label:
+            text: ''
+            size_hint_x: 0.15
+        Label:
+            text: ''
+            size_hint_x: 0.15
+        TextInput:
+            id: acInput
+            text:'acquisition rate (Hz)'
+            size_hint_x: 0.7
+        Label:
+            text: ''
+            size_hint_x: 0.15
+        Label:
+            text: ''
+            size_hint_x: 0.25
+        Button:
+            text:'submit'
+            size_hint_x: 0.5
+            on_press:
+                root.callback()
